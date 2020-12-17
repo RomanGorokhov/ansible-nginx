@@ -7,6 +7,9 @@
     - 
       name: "install python"
       raw: "apt-get -y install python"
+    -
+      name: "remove /var/www"
+      raw: "mv /var/www /var/www_old;mkdir /var/www"
     - 
       git: "repo=https://github.com/RomanGorokhov/index-html.git dest=/var/www\n"
       name: "clone a repository"
