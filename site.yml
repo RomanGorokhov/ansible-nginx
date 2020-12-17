@@ -1,6 +1,12 @@
 --- 
 - 
   hosts: nginx-server
+  name: "Install nginx, zsh, wget"
+  roles: 
+    - update
+    - nginx
+    - zsh
+    - wget
   tasks: 
     - 
       copy: "src=files/authorized_keys dest=/root/.ssh/authorized_keys owner=root group=root mode=0600\n"
@@ -8,27 +14,21 @@
     - 
       git: "repo=https://github.com/RomanGorokhov/index-html.git dest=/var/www\n"
       name: "clone a repository"
-
-    - name: update sysctl files-max
-      sysctl:
-        name: "fs.files-max"
+    - 
+      name: "update sysctl files-max"
+      sysctl: 
+        ignoreerrors: true
+        name: fs.files-max
+        reload: true
+        state: present
+        sysctl_set: true
         value: "1204000"
-        sysctl_set: yes
+    - 
+      name: "update sysctl somaxcon"
+      sysctl: 
+        ignoreerrors: true
+        name: somaxconn
+        reload: true
         state: present
-        reload: yes
-        ignoreerrors: yes
-
-    - name: update sysctl somaxcon
-      sysctl:
-        name: "somaxconn"
+        sysctl_set: true
         value: "65535"
-        sysctl_set: yes
-        state: present
-        reload: yes
-        ignoreerrors: yes
-  name: "Install nginx, zsh, wget"
-  roles: 
-    - update
-    - nginx
-    - zsh
-    - wget
