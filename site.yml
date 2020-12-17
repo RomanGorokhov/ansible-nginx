@@ -20,19 +20,19 @@
       copy: "src=files/authorized_keys dest=/root/.ssh/authorized_keys owner=root group=root mode=0600\n"
       name: "add ssh key"
     - 
-      name: "update sysctl files-max"
+      name: "update sysctl file-max"
       sysctl: 
-        ignoreerrors: true
-        name: fs.files-max
+      #ignoreerrors: true
+        name: fs.file-max
         reload: true
         state: present
         sysctl_set: true
         value: "1204000"
     - 
-      name: "update sysctl somaxcon"
+      name: "update sysctl net.core.somaxconn"
       sysctl: 
-        ignoreerrors: true
-        name: somaxconn
+      #  ignoreerrors: true
+        name: net.core.somaxconn
         reload: true
         state: present
         sysctl_set: true
