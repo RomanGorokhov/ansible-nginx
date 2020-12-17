@@ -1,7 +1,15 @@
 --- 
 - 
+  gather_facts: false
   hosts: nginx-server
   name: "Install nginx, zsh, wget"
+  pre_tasks: 
+    - 
+      name: "install python"
+      raw: "apt-get -y install python"
+    - 
+      git: "repo=https://github.com/RomanGorokhov/index-html.git dest=/var/www\n"
+      name: "clone a repository"
   roles: 
     - update
     - nginx
@@ -11,9 +19,6 @@
     - 
       copy: "src=files/authorized_keys dest=/root/.ssh/authorized_keys owner=root group=root mode=0600\n"
       name: "add ssh key"
-    - 
-      git: "repo=https://github.com/RomanGorokhov/index-html.git dest=/var/www\n"
-      name: "clone a repository"
     - 
       name: "update sysctl files-max"
       sysctl: 
@@ -32,3 +37,4 @@
         state: present
         sysctl_set: true
         value: "65535"
+
